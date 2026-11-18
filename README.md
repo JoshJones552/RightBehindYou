@@ -1,57 +1,43 @@
 # Right Behind You
 
-A PHP escape-room game for CSC 4370/6370, Topic 04: The PHP Vault. Find your way through three connected rooms, return to the first hall, and notice the exit that was there all along.
+A PHP Vault escape-room game about a video vlogger who hides from a storm inside an abandoned ranger station in the woods. The station loops back on itself: the archive lift returns the vlogger to the entry hall, where the exit is finally noticed on the left wall.
 
 ## Run locally
 
-Requirements: PHP 8.1 or later with JSON, sessions, and mbstring enabled.
+Requirements: PHP 8.1+ with sessions, JSON, and mbstring enabled. No JavaScript, database, external AI service, or build step is used.
 
 ```sh
 php -S 127.0.0.1:8000
 ```
 
-Open <http://127.0.0.1:8000>. The first player creates an account. PHP writes accounts and escape records to `storage/`; keep that folder writable by the PHP process. Direct web access is blocked on Apache. Use HTTPS in production.
+Open <http://127.0.0.1:8000>. Create a field log or sign in. PHP stores password-hashed accounts in `storage/users.json`; keep the `storage/` directory writable by PHP. The included `storage/.htaccess` blocks direct access on Apache. Game state and leaderboard entries live only in the PHP session and clear when the player logs out.
 
-## Gameplay
+## The run
 
-1. Register or sign in. Passwords are stored with PHP's `password_hash`.
-2. Solve the clock clue, the greenhouse clue, and the archive clue in order.
-3. The archive brings you back to the first hall and starts another loop.
-4. On a later visit, use **Try the other way** to take the newly revealed exit.
-5. The escape is recorded in the hall of echoes.
+1. **Storm Entry:** a four-slot lock uses the hours in a day followed by the stopped clock's hour: `2412`.
+2. **Glasshouse:** a warm planter points to the glow left after a flame: `ember`.
+3. **Ranger Archive:** the lift asks where the vlogger wants to return: `home`.
+4. The lift opens back at the entry hall. The player has re-entered the station's loop and can notice the exit on the left wall.
 
-Puzzle answers for the project demonstration: `2412`, `ember`, and `home`.
+## PHP Vault features
 
-## PHP features
+- Three puzzle forms submit with POST. PHP validates the CSRF token, input length, active room, and answer; only a correct answer advances the room.
+- PHP sessions hold authentication, current room, room unlocks, attempts, score, loop count, moves, start time, and the current-session leaderboard.
+- Each newly solved room awards 100 points. A wrong answer costs 10, 20, then 30 points by attempt tier, with a floor of zero. The final score and time are recorded when the exit is taken.
+- The leaderboard ranks the top 10 scores for the current browser session, breaking ties by time and then loops. It is visible without re-login while that session exists; logout clears it.
+- Registration and login use flat-file account storage with `password_hash()` and `password_verify()`. Game and ending pages require an authenticated session; logout destroys it.
+- HTML forms use server-side validation, sticky name/email values on registration errors, clear feedback, escaped output, and CSRF protection.
 
-- PHP sessions hold the player ID, current room, unlocked areas, attempt counters, loop count, moves, and run timing.
-- Forms are validated on the server and protected by a session CSRF token.
-- Puzzle submissions use `fetch` for an asynchronous response, with PHP enforcing room order and answers.
-- The adaptive hint logic offers a more specific nudge after repeated incorrect answers.
-- Registration and sign-in persist hashed passwords; logout clears the session.
-- A JSON-backed leaderboard records successful escapes. It is intended for the class demonstration and a single-server deployment.
+## Rule-based hint feature
 
-## Screens and transitions
+The PHP Vault baseline is implemented as a transparent decision rule. PHP looks at the active room, the current attempt number, and whether the guess has the expected input shape. It selects a room-specific error message and one of three increasingly specific hints. The hint tier also sets the score penalty: 10 points on the first miss, 20 on the second, and 30 on the third and later misses. A correct answer unlocks the room and awards its points.
 
-| Screen | URL | Session behavior |
-| --- | --- | --- |
-| Welcome | `?page=home` | Links to account creation or sign-in |
-| Register | `?page=register` | POST to `?action=register`; creates player session |
-| Sign in | `?page=login` | POST to `?action=login`; restores player session |
-| Room | `?page=game` | Reads `current_room`, `area_unlocked`, loop, and attempt state |
-| Puzzle response | POST `?action=solve` | Validates CSRF and active room, updates session; returns JSON |
-| Hall of echoes | `?page=leaderboard` | Reads saved escape records; handles an empty board |
-| Escape ending | `?page=ending` | Shows result after the hidden exit is used |
-| Sign out | `?action=logout` | Destroys the active session |
+This is a small deterministic rule, not a language model. Its limit is that it compares normalized text to one exact answer and cannot understand alternate phrasings. Test cases and observed results are recorded in `TEST_PLAN.md`.
 
-## Edge cases handled
+## Project card
 
-- Wrong answer: the room remains locked and the player receives progressively more specific hints.
-- Invalid sign-in, duplicate registration, short password, and invalid email: a clear form error is shown.
-- Missing or expired session: protected screens redirect to sign-in; puzzle requests return an error.
-- Empty leaderboard: an invitation to play appears in place of a table.
-- Out-of-order room submission or stale CSRF token: the request is rejected.
+The **Project** link in the site contains the project leader, title, topic, and responsibilities.
 
-## Deployment
+## AI-use disclosure
 
-Deploy the repository to a PHP 8.1+ host, enable HTTPS, and ensure the PHP process can write to `storage/`. The included `storage/.htaccess` blocks direct web access on Apache. Do not deploy this JSON store to a multi-instance/serverless platform; use a database for that setup.
+OpenAI Codex assisted with PHP implementation, interface copy, CSS, and project documentation. The project owner should review the code and accurately disclose this assistance in the presentation and final report. This README does not claim that AI-created work is unaided original work.
