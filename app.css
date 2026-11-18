@@ -16,3 +16,9 @@ h1{font-weight:700;letter-spacing:-.04em}h1 em,.intro-strip em,.auth-art em,.end
 @media(max-width:760px){.hero-art{height:320px}.auth-art-text p{margin-top:20px}.auth-light{width:135px;height:65px;bottom:15px;left:53%}.game-shell{padding:26px 14px}.puzzle-panel{border-left:0;border-top:2px dashed rgba(233,232,204,.25)}}
 .room-score{display:flex;align-items:center;gap:12px;padding:10px 14px;margin:12px 0 18px;border:1px dashed rgba(233,232,204,.32);border-radius:8px 5px 9px 6px;color:#dbe3c7;font:700 10px var(--mono);letter-spacing:.05em}.room-score strong{font:700 20px var(--sans);color:var(--amber)}.room-score span{margin-left:auto;color:#b7c6b1;font:12px var(--sans);letter-spacing:0}.answer-row .button{width:auto;min-width:128px;padding:0 14px;flex:none}.notice{border-left:3px solid var(--amber2);border-radius:5px 3px 6px 4px;background:rgba(233,131,89,.12);color:#ffd0ac;font-size:12px}.notice.success{border-color:var(--green);background:rgba(169,207,131,.12);color:#d4edaf}.notice.loop{border-color:var(--amber);background:rgba(243,200,92,.13);color:#f8e29b}.project-page .empty-state p{line-height:1.8}
 .footer a{color:var(--amber);text-decoration:none;font:inherit}.footer a:hover{color:var(--amber2)}
+/* Keep the lettering plain so the handmade room art carries the style. */
+:root{--serif:Arial,sans-serif;--sans:Arial,sans-serif;--mono:Menlo,Consolas,monospace}
+h1,h2,h1 em,.intro-strip em,.auth-art em,.ending em,.leaderboard-page h1 em{font-family:Arial,sans-serif;font-style:normal;letter-spacing:normal}
+h1{font-weight:700;letter-spacing:0}
+.kicker{font-family:Arial,sans-serif;font-weight:700;letter-spacing:.06em}
+.brand,.meta-row,.room-score,.scene-rec,.run-badge,.progress-step,.room-footer,.scene-note,.art-number{font-family:Arial,sans-serif;letter-spacing:.04em}
