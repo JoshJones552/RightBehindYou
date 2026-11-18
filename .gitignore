@@ -1,0 +1,5 @@
+storage/*.json
+storage/*.json.lock
+storage/sessions/
+!/storage/.gitkeep
+.DS_Store
