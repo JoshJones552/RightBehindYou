@@ -10,7 +10,7 @@ Requirements: PHP 8.1 or later with JSON, sessions, and mbstring enabled.
 php -S 127.0.0.1:8000
 ```
 
-Open <http://127.0.0.1:8000>. The first player creates an account. PHP writes accounts and escape records to `storage/`; keep that folder writable by the PHP process and outside the public web root. Use HTTPS in production.
+Open <http://127.0.0.1:8000>. The first player creates an account. PHP writes accounts and escape records to `storage/`; keep that folder writable by the PHP process. Direct web access is blocked on Apache. Use HTTPS in production.
 
 ## Gameplay
 

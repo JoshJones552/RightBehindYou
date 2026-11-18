@@ -128,7 +128,7 @@ $title = ['home'=>'Right Behind You','login'=>'Sign in','register'=>'Create your
   <meta name="theme-color" content="#10100f"><title><?= esc($title) ?> · Right Behind You</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/app.css">
+  <link rel="stylesheet" href="app.css">
 </head>
 <body class="page-<?= esc($page) ?>">
 <div class="grain" aria-hidden="true"></div>
@@ -147,4 +147,4 @@ $title = ['home'=>'Right Behind You','login'=>'Sign in','register'=>'Create your
 <section class="ending"><span class="kicker"><i></i> THE DOOR WAS THERE ALL ALONG</span><div class="ending-orb">✳</div><h1>You made it <em>out.</em></h1><p>The house is quiet behind you. It will remember your name.</p><div class="ending-stats"><span>LOOPS<strong><?= (int)$_SESSION['loops'] ?></strong></span><span>MOVES<strong><?= (int)$_SESSION['moves'] ?></strong></span><span>TIME<strong><?= gmdate('i:s',max(1,time()-(int)$_SESSION['run_started'])) ?></strong></span></div><a class="button button-primary" href="?page=leaderboard">See your place in the hall ↗</a><form method="post" action="?action=logout" class="ending-logout"><input type="hidden" name="csrf" value="<?= esc(csrf_token()) ?>"><button class="text-link" type="submit">Leave the house</button></form></section>
 <?php endif; ?>
 </main><footer class="footer"><span>RIGHT BEHIND YOU <i>·</i> AN INTERACTIVE ESCAPE</span><span>LOOK AGAIN.</span></footer>
-<script src="assets/game.js" defer></script></body></html>
+<script src="game.js" defer></script></body></html>
